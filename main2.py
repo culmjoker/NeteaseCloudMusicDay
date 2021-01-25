@@ -17,6 +17,7 @@ class CloudMusic:
         """登录"""
         res = self.get('/login/cellphone?phone=%s&password=%s' % (self.phone, self.password))
         data=res.json()
+        print('请求登录结果:{}'.format(res.json()))
         if data.get('account'):
             return data.get('account').get('id')
         return None
