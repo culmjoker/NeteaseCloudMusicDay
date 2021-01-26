@@ -28,7 +28,6 @@ class CloudMusic:
         data=res.json()
         if data.get('code')==200:
             return True
-        print(data)
         return False
 
     def createMusicList(self,name):
@@ -41,7 +40,7 @@ class CloudMusic:
     def getDaySend(self):
         """获取每日推荐"""
         res=self.get('/recommend/songs')
-        data=res.json()
+        data=res.json().get('data')
         recommend=data.get('dailySongs')
         ids=[]
         for item in recommend:
@@ -52,7 +51,7 @@ class CloudMusic:
         """添加歌单歌曲"""
         res=self.get('/playlist/tracks?op=add&pid=%s&tracks=%s'%(list_id,music_ids))
         data=res.json()
-        if data.get('code')==200:
+        if data.get('status')==200:
             return True
         return False
 
@@ -134,6 +133,7 @@ if __name__=='__main__':
         if len(will_add_list) > 0:
             music_ids = ','.join(will_add_list)
             res = cm.addMusicToList(list_id, music_ids)
+            print(res)
             if res:
                 print('添加日推列表：%s【成功】' % (music_ids))
             else:
